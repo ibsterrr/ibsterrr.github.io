@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Come to Lotl</title>
+<meta name="description" content="A friend has invited you to Lotl.">
+<style>
+:root{--ink:#17393a;--pink:#e2557f;--bg1:#cfeee6;--bg2:#f6efe0;--card:rgba(255,255,255,.72)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:-apple-system,"SF Pro Rounded","Helvetica Neue",sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{max-width:420px;width:100%;background:var(--card);border-radius:28px;padding:32px 24px;text-align:center;box-shadow:0 10px 40px rgba(23,57,58,.12)}
+.egg{width:84px;height:104px;margin:0 auto 18px;border-radius:50% 50% 46% 46%/58% 58% 42% 42%;background:radial-gradient(circle at 35% 30%,#fff,#fbe3ea 55%,#f2b9c8);box-shadow:inset -6px -8px 0 rgba(226,85,127,.12)}
+h1{font-size:26px;margin:0 0 8px}
+p{font-size:16px;line-height:1.5;margin:8px 0}
+.code{display:inline-block;margin:14px 0 6px;padding:10px 18px;border-radius:14px;background:#fff;font:700 22px/1 ui-rounded,-apple-system,sans-serif;letter-spacing:2px}
+.btn{display:block;margin:12px auto 0;padding:14px 20px;border-radius:999px;font-weight:700;font-size:17px;text-decoration:none;border:0;width:100%;cursor:pointer}
+.primary{background:var(--pink);color:#fff}
+.quiet{background:#fff;color:var(--ink)}
+.small{font-size:13px;opacity:.7;margin-top:16px}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="egg" aria-hidden="true"></div>
+  <h1 id="title">You're invited to Lotl</h1>
+  <p id="lead">A friend would like their Lotl and yours to be friends. Lotl is a little creature in a pond that grows with the way you live.</p>
+  <div class="code" id="code" aria-label="Invite code"></div>
+  <a class="btn primary" id="open" href="#">Open in Lotl</a>
+  <a class="btn quiet" id="get" href="#">I don't have Lotl yet</a>
+  <p class="small" id="how">Got Lotl already? Tap "Open in Lotl". New to Lotl? Install it, then open it: it will offer to use this invite, or type the code on the first screen.</p>
+  <p class="small"><a href="/privacy/">Privacy</a></p>
+</main>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), code=(q.get('c')||'').toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,16), name=(q.get('n')||'').replace(/[<>&"]/g,'').slice(0,24);
+  var el=document.getElementById('code');
+  if(code){el.textContent=code;}else{el.style.display='none';}
+  if(name){document.getElementById('title').textContent=name+' would like to be friends';}
+  // If Lotl is installed, iOS opens it from the link itself; this button is the fallback.
+  document.getElementById('open').href='lotl://invite?c='+encodeURIComponent(code);
+  // Lotl is in testing: the person who invited you can send the TestFlight link. Copying the code lets Lotl offer it on first launch.
+  var TESTFLIGHT='';
+  document.getElementById('get').addEventListener('click',function(e){
+    e.preventDefault();
+    try{navigator.clipboard.writeText('lotl-invite:'+code);}catch(_){}
+    if(TESTFLIGHT){location.href=TESTFLIGHT;}
+    else{alert('Lotl is being tested right now. Ask the friend who invited you for the test link. Your invite code is '+code+'.');}
+  });
+})();
+</script>
+</body>
+</html>

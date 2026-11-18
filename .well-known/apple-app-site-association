@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["5D7XZHU939.au.net.ainative.lotl"],
+        "components": [
+          { "/": "/invite/*", "comment": "Friend invitations open Lotl" }
+        ]
+      }
+    ]
+  }
+}
