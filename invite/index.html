@@ -40,7 +40,7 @@ p{font-size:16px;line-height:1.5;margin:8px 0}
   // If Lotl is installed, iOS opens it from the link itself; this button is the fallback.
   document.getElementById('open').href='lotl://invite?c='+encodeURIComponent(code);
   // Lotl is in testing: the person who invited you can send the TestFlight link. Copying the code lets Lotl offer it on first launch.
-  var TESTFLIGHT='';
+  var TESTFLIGHT='https://testflight.apple.com/join/NSAHpBD5';
   document.getElementById('get').addEventListener('click',function(e){
     e.preventDefault();
     try{navigator.clipboard.writeText('lotl-invite:'+code);}catch(_){}
