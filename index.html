@@ -47,6 +47,8 @@
   .hero h1 span{color:var(--pink)}
   .hero p.sub{font-size:clamp(18px,2.1vw,21px);color:var(--soft);margin:0 0 30px;max-width:500px}
   .ctas{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .beta-note{margin-top:12px;font-size:14px;color:var(--soft);font-weight:600}
+  .beta-note[hidden]{display:none}
   .facts{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;color:var(--soft);font-weight:600;font-size:15px}
   .facts span{display:inline-flex;align-items:center;gap:7px}
   .facts svg{width:18px;height:18px;stroke:var(--aqua3);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -106,6 +108,7 @@
   .closing h2{font-size:clamp(34px,5vw,52px)}
   .closing-face{width:170px;margin:0 auto 14px;filter:drop-shadow(0 12px 16px rgba(0,80,90,.18));animation:bob 3.4s ease-in-out infinite;position:relative;z-index:1}
   .closing p{color:var(--soft);font-size:19px;margin:0 auto 30px;max-width:460px}
+  .closing .beta-note{font-size:14px;margin:14px auto 0}
 
   footer{background:var(--sand);padding:34px 0;border-top:1px solid var(--line);font-size:15px;color:var(--soft)}
   footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
@@ -117,6 +120,7 @@
     .hero .wrap{grid-template-columns:1fr;text-align:center;padding-top:44px;padding-bottom:96px}
     .hero p.sub{margin-left:auto;margin-right:auto}
     .ctas,.facts{justify-content:center}
+    .beta-note{text-align:center}
     .hero-art{margin-top:40px}
     .hero-art .face{width:140px;top:-30px}
     .steps{grid-template-columns:1fr}
@@ -150,6 +154,7 @@
         <a class="btn btn-dark get" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5z"/></svg><span class="get-words">Coming soon to the App Store</span></a>
         <a class="btn btn-ghost" href="#how">How it works ↓</a>
       </div>
+      <p class="beta-note" hidden>Open the beta on your iPhone. It uses Apple's free TestFlight app.</p>
     </div>
     <div class="hero-art">
       <div class="halo"></div>
@@ -243,6 +248,7 @@
   <h2>Hatch your Lotl</h2>
   <p>It starts as an egg. Where it goes is up to you.</p>
   <a class="btn btn-dark get" href="#"><span class="get-words">Coming soon to the App Store</span></a>
+  <p class="beta-note" hidden>Open the beta on your iPhone. It uses Apple's free TestFlight app.</p>
 </div>
 
 <footer>
@@ -265,6 +271,8 @@
       var w = a.querySelector('.get-words'); if (w) w.textContent = a.classList.contains('btn-small') ? short : long;
       if (url) { a.href = url; } else { a.classList.add('off'); a.removeAttribute('href'); }
     });
+    /* the beta link only opens on an iPhone (on a computer Safari says the address is invalid), so say so while it is the beta */
+    if (!APP_STORE && TESTFLIGHT) document.querySelectorAll('.beta-note').forEach(function (p) { p.hidden = false; });
     /* bubbles drifting up the hero and the closing, like the app's loading page */
     ['.hero', '.closing'].forEach(function (sel) {
       var box = document.querySelector(sel);
