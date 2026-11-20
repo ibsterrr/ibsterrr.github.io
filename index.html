@@ -1,4 +1,285 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lotl</title>
-<style>body{margin:0;min-height:100vh;font-family:-apple-system,"SF Pro Rounded","Helvetica Neue",sans-serif;color:#17393a;background:linear-gradient(180deg,#cfeee6,#f6efe0);display:flex;align-items:center;justify-content:center;padding:24px 16px;text-align:center}main{max-width:420px}h1{font-size:34px;margin:0 0 8px}p{font-size:17px;line-height:1.5}</style></head>
-<body><main><h1>Lotl</h1><p>A little creature in a pond that grows with the way you live. In testing now.</p><p><a href="/privacy/">Privacy policy</a></p></main></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lotl: a little friend that grows with how you live</title>
+<meta name="description" content="Lotl is a little axolotl in a pond on your iPhone. Look after yourself, and Lotl and its pond flourish.">
+<meta property="og:title" content="Lotl">
+<meta property="og:description" content="A little friend that grows with how you live.">
+<meta property="og:image" content="https://ibsterrr.github.io/img/icon.png">
+<link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#143534; --soft:#557371; --line:rgba(20,53,52,.08);
+    --pink:#d6547a; --pink-soft:#fbe4ec;
+    --aqua1:#d8f5f0; --aqua2:#7fd8d4; --aqua3:#3fb1b4; --aqua-soft:#e4f6f3;
+    --sand:#fbf7ef; --card:#fff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);background:var(--sand);font-family:ui-rounded,"SF Pro Rounded","Nunito",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;font-size:17px}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* top bar */
+  nav{position:sticky;top:0;z-index:10;background:rgba(216,245,240,.78);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;text-decoration:none}
+  .brand img{width:40px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;font-weight:700;text-decoration:none;white-space:nowrap;transition:transform .15s ease, box-shadow .15s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-dark{background:var(--ink);color:#fff;padding:15px 26px;font-size:17px;box-shadow:0 10px 26px rgba(20,53,52,.22)}
+  .btn-small{background:var(--ink);color:#fff;padding:9px 18px;font-size:15px}
+  .btn-ghost{color:var(--ink);padding:15px 18px;font-size:17px}
+  .btn.off{cursor:default}
+  .btn svg{width:20px;height:20px;fill:currentColor}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--aqua1) 0%,#b9ece6 45%,var(--aqua2) 100%)}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding-top:64px;padding-bottom:110px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.65);border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px;color:var(--soft)}
+  .hero h1{font-size:clamp(40px,5.6vw,64px);line-height:1.05;margin:18px 0 18px;font-weight:800;letter-spacing:-.5px}
+  .hero h1 span{color:var(--pink)}
+  .hero p.sub{font-size:clamp(18px,2.1vw,21px);color:var(--soft);margin:0 0 30px;max-width:500px}
+  .ctas{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .facts{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;color:var(--soft);font-weight:600;font-size:15px}
+  .facts span{display:inline-flex;align-items:center;gap:7px}
+  .facts svg{width:18px;height:18px;stroke:var(--aqua3);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .hero-art{position:relative;display:flex;justify-content:center}
+  .hero-art .halo{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,255,255,0) 68%);top:50%;left:50%;transform:translate(-50%,-50%)}
+  .hero-art .face{position:absolute;width:190px;top:-34px;left:50%;transform:translateX(-118%) rotate(-8deg);filter:drop-shadow(0 14px 18px rgba(0,80,90,.2));z-index:2;animation:bob 3.4s ease-in-out infinite}
+  @keyframes bob{50%{translate:0 -9px}}
+  .wave{position:absolute;left:0;right:0;bottom:-1px;height:70px;width:100%}
+  .bubble{position:absolute;border:1.5px solid rgba(255,255,255,.6);border-radius:50%;animation:rise linear infinite;pointer-events:none}
+  @keyframes rise{from{transform:translateY(0)}to{transform:translateY(-820px)}}
+
+  /* phone frame */
+  .phone{position:relative;z-index:1;width:min(300px,72vw);border-radius:46px;padding:9px;background:#172625;box-shadow:0 30px 60px rgba(20,53,52,.28),inset 0 0 0 1.5px #2e3f3e}
+  .phone img{border-radius:38px}
+
+  section{padding:96px 0}
+  .kicker{text-align:center;color:var(--pink);font-weight:800;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;margin:0 0 10px}
+  h2{font-size:clamp(30px,4vw,42px);line-height:1.12;margin:0 0 14px;letter-spacing:-.3px}
+  .center{text-align:center}
+  .lead{color:var(--soft);font-size:19px;max-width:620px;margin:0 auto}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+  .step{position:relative;background:var(--card);border-radius:28px;padding:30px 28px 28px;border:1px solid var(--line);box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 14px 34px rgba(20,53,52,.06)}
+  .step .num{position:absolute;top:24px;right:26px;font-weight:800;font-size:15px;color:rgba(20,53,52,.25)}
+  .icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .icon svg{width:26px;height:26px;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+  .step h3{margin:0 0 8px;font-size:21px}
+  .step p{margin:0;color:var(--soft);font-size:16px}
+
+  /* feature rows */
+  .rows{display:flex;flex-direction:column;gap:110px}
+  .row{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:70px}
+  .row.flip .art{order:2}
+  .row .art{display:flex;justify-content:center;position:relative}
+  .row .art::before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+  .row.a .art::before{background:var(--aqua-soft)}
+  .row.b .art::before{background:var(--pink-soft)}
+  .row.c .art::before{background:#fdf1d8}
+  .row h2{margin-bottom:16px}
+  .row p{color:var(--soft);font-size:18px;margin:0 0 22px}
+  .ticks{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .ticks li{display:flex;gap:12px;align-items:flex-start;font-size:17px}
+  .ticks svg{flex:none;width:24px;height:24px;margin-top:1px}
+  .tag{display:inline-block;font-weight:800;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:var(--pink);margin-bottom:10px}
+
+  /* privacy band */
+  .band{background:var(--ink);color:#e6f3f1;border-radius:34px;padding:52px 48px;display:grid;grid-template-columns:1.1fr 2fr;gap:44px;align-items:center}
+  .band h2{color:#fff;margin:0}
+  .band .items{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .band .item svg{width:28px;height:28px;stroke:#8ee0d9;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+  .band .item b{display:block;color:#fff;font-size:17px;margin-bottom:4px}
+  .band .item span{font-size:15px;opacity:.78}
+
+  /* closing */
+  .closing{position:relative;overflow:hidden;text-align:center;padding:110px 24px 120px;background:linear-gradient(180deg,var(--sand) 0%,var(--aqua1) 30%,var(--aqua2) 100%)}
+  .closing h2{font-size:clamp(34px,5vw,52px)}
+  .closing p{color:var(--soft);font-size:19px;margin:0 auto 30px;max-width:460px}
+
+  footer{background:var(--sand);padding:34px 0;border-top:1px solid var(--line);font-size:15px;color:var(--soft)}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .links{display:flex;gap:22px}
+  footer a{text-decoration:none;font-weight:700;color:var(--ink)}
+  footer .note{font-size:13px;width:100%;opacity:.8}
+
+  @media (max-width:880px){
+    .hero .wrap{grid-template-columns:1fr;text-align:center;padding-top:44px;padding-bottom:96px}
+    .hero p.sub{margin-left:auto;margin-right:auto}
+    .ctas,.facts{justify-content:center}
+    .hero-art{margin-top:40px}
+    .hero-art .face{width:140px;top:-30px}
+    .steps{grid-template-columns:1fr}
+    .row,.row.flip{grid-template-columns:1fr;gap:36px;text-align:left}
+    .row .art,.row.flip .art{order:0}
+    .row .art::before{width:300px;height:300px}
+    .rows{gap:80px}
+    .band{grid-template-columns:1fr;padding:40px 28px}
+    .band .items{grid-template-columns:1fr}
+    section{padding:72px 0}
+  }
+  @media (prefers-reduced-motion:reduce){.hero-art .face,.bubble{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="img/lotl-small.png" alt="">Lotl</a>
+    <a class="btn btn-small get" href="#"><span class="get-words">Coming soon</span></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">For iPhone</span>
+      <h1>A little friend that grows with <span>how you live</span>.</h1>
+      <p class="sub">Lotl is an axolotl in a pond on your iPhone. Look after yourself, and Lotl and its pond flourish, a little more every day.</p>
+      <div class="ctas">
+        <a class="btn btn-dark get" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5z"/></svg><span class="get-words">Coming soon to the App Store</span></a>
+        <a class="btn btn-ghost" href="#how">How it works ↓</a>
+      </div>
+      <div class="facts">
+        <span><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Free</span>
+        <span><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>No account</span>
+        <span><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>No ads</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="halo"></div>
+      <img class="face" src="img/lotl.png" alt="">
+      <div class="phone"><img src="img/glass.jpg" alt="Lotl swimming up to the glass in a lush pond"></div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C 240 80, 480 0, 720 30 S 1200 70, 1440 30 L1440 70 L0 70 Z" fill="#fbf7ef"/></svg>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2 class="center">Your day shows up in the pond</h2>
+    <p class="lead center">No forms and no telling-off. Just a little life that reflects how you're looking after yourself.</p>
+    <div class="steps">
+      <div class="step"><span class="num">01</span>
+        <div class="icon" style="background:var(--aqua-soft)"><svg viewBox="0 0 24 24" style="stroke:#2b9a9c"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></div>
+        <h3>Live your day</h3><p>Choose what you'd like to work on: less alcohol or sugar, better sleep, more movement, calm. Lotl reads your steps and sleep from Apple Health.</p></div>
+      <div class="step"><span class="num">02</span>
+        <div class="icon" style="background:#e5f1fb"><svg viewBox="0 0 24 24" style="stroke:#3a86c8"><path d="M12 2.7s-6 6.6-6 11.3a6 6 0 0 0 12 0C18 9.3 12 2.7 12 2.7z"/></svg></div>
+        <h3>Watch your pond</h3><p>Good days clear the water and grow new plants overnight. Lotl grows up, earns colours and markings, and moves into new homes.</p></div>
+      <div class="step"><span class="num">03</span>
+        <div class="icon" style="background:var(--pink-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--pink)"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></div>
+        <h3>Tell Lotl about your day</h3><p>Talk to Lotl in the evening. It listens, answers back and remembers what matters to you.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap rows">
+    <div class="row a">
+      <div class="art"><div class="phone"><img src="img/pond.jpg" alt="A lush, flourishing pond"></div></div>
+      <div>
+        <span class="tag">Grows with you</span>
+        <h2>From a bare pond to a magical one</h2>
+        <p>It starts as an egg in an almost empty pond. Every good day adds something you can see.</p>
+        <ul class="ticks">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#d7f2ee"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#2b9a9c" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Clear water, plants, coral and visitors that come and go</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#d7f2ee"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#2b9a9c" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Colours and markings that come from how you sleep, move and stay calm</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#d7f2ee"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#2b9a9c" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>No two Lotls end up alike, because no two lives are</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row b flip">
+      <div class="art"><div class="phone"><img src="img/friends.jpg" alt="Friends' Lotls visiting the pond"></div></div>
+      <div>
+        <span class="tag">Better together</span>
+        <h2>Friends' Lotls come to visit</h2>
+        <p>Invite a friend and your Lotls can visit each other's ponds.</p>
+        <ul class="ticks">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbe0ea"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#d6547a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Play together: race for pearls and chase the ball</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbe0ea"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#d6547a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Look after each other: lend a tired friend your night mask</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbe0ea"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#d6547a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Sleepovers: visitors can stay the night</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row c">
+      <div class="art"><div class="phone"><img src="img/scores.jpg" alt="Today's rings and what changed for Lotl"></div></div>
+      <div>
+        <span class="tag">Your day at a glance</span>
+        <h2>See how today is going</h2>
+        <p>Rings for moving, sleep, calm, mood and your goals fill as the day goes, and the pond lights up with them.</p>
+        <ul class="ticks">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbecc6"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#c98a12" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Flower buds open by Lotl's home as you meet your goals</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbecc6"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#c98a12" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>A golden hour when every ring is strong</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fbecc6"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#c98a12" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>A gentle week summary, never a telling-off</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="band">
+      <h2>Private by design</h2>
+      <div class="items">
+        <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="M3 3l18 18"/></svg><b>No account, no ads</b><span>Hatch your egg and you're in.</span></div>
+        <div class="item"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg><b>Stays on your iPhone</b><span>What you tell Lotl and your Apple Health data stay on your phone.</span></div>
+        <div class="item"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><b>Friends see your Lotl</b><span>Never your health figures.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="closing" id="closing">
+  <h2>Hatch your Lotl</h2>
+  <p>It starts as an egg. Where it goes is up to you.</p>
+  <a class="btn btn-dark get" href="#"><span class="get-words">Coming soon to the App Store</span></a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#" style="font-size:18px"><img src="img/lotl-small.png" alt="" style="width:30px">Lotl</a>
+    <div class="links"><a href="privacy/">Privacy</a><a href="mailto:ibbyhamza@outlook.com">Support</a></div>
+    <div class="note">Lotl is not a medical app and does not give medical advice. © 2026 Lotl.</div>
+  </div>
+</footer>
+
+<script>
+  /* Where the buttons go: the App Store once Lotl is live, the TestFlight beta before that. Both empty: "Coming soon". */
+  var APP_STORE = '';
+  var TESTFLIGHT = '';
+  (function () {
+    var url = APP_STORE || TESTFLIGHT;
+    var long = APP_STORE ? 'Download on the App Store' : TESTFLIGHT ? 'Join the beta' : 'Coming soon to the App Store';
+    var short = APP_STORE ? 'Get Lotl' : TESTFLIGHT ? 'Join the beta' : 'Coming soon';
+    document.querySelectorAll('.get').forEach(function (a) {
+      var w = a.querySelector('.get-words'); if (w) w.textContent = a.classList.contains('btn-small') ? short : long;
+      if (url) { a.href = url; } else { a.classList.add('off'); a.removeAttribute('href'); }
+    });
+    /* bubbles drifting up the hero and the closing, like the app's loading page */
+    ['.hero', '.closing'].forEach(function (sel) {
+      var box = document.querySelector(sel);
+      for (var i = 0; i < 12; i++) {
+        var b = document.createElement('span'), r = 6 + Math.random() * 14;
+        b.className = 'bubble'; b.style.width = b.style.height = r + 'px';
+        b.style.left = (3 + Math.random() * 94) + '%'; b.style.top = (55 + Math.random() * 60) + '%';
+        b.style.animationDuration = (11 + Math.random() * 12) + 's'; b.style.animationDelay = (-Math.random() * 20) + 's';
+        box.appendChild(b);
+      }
+    });
+  })();
+</script>
+</body>
+</html>
